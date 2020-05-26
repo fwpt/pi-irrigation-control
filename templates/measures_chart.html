@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>Irrigation measures rpi-c1</title>
+</head>
+<body style="padding:10px;font-size:40px !important;">
+<canvas id="moistChart" width="400" height="200"></canvas>
+<canvas id="tempChart" width="400" height="200"></canvas>
+<script src="static/chart.bundle.min.js"></script>
+<script>
+var moist_data = [{{measures_moist}}];
+var temp_data = [{{measures_temp}}];
+var humid_data = [{{measures_humid}}];
+var irri_data = [{{measures_irri}}];
+window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+};
+var color = Chart.helpers.color;
+var ctx = document.getElementById('moistChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Soil moisture',
+            backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+            borderColor: window.chartColors.blue,
+            data: moist_data,
+            type: 'line',
+            pointRadius: 0,
+            fill: false,
+            /*lineTension: 0,*/
+            borderWidth: 2,
+            order: 2, 
+            yAxisID: 'y-axis-1',
+        }, {
+            label: 'Irrigation',
+            backgroundColor: color(window.chartColors.green).alpha(0.2).rgbString(),
+            borderColor: window.chartColors.green,
+            data: irri_data,
+            //type: 'bar',
+            type: 'line',
+            //fill: true,
+            fill: false,
+            borderWidth: 1,
+            order: 1, 
+            yAxisID: 'y-axis-2',
+        }]
+    },
+    options: {
+        responsive: true,
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                type: 'time',
+                distribution: 'linear', 
+                time: {
+                    unit: 'day'
+                }
+            }],
+            yAxes: [{
+                id: 'y-axis-1',
+                gridLines: {
+                    drawBorder: false
+                },
+                position: 'right', 
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Voltage'
+                }
+            }, {
+                id: 'y-axis-2',
+                gridLines: {
+                    drawBorder: false
+                },
+                position: 'left', 
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Amount (ml)'
+                }
+            }]
+        }
+    }
+});
+
+var ctx2 = document.getElementById('tempChart').getContext('2d');
+var chart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Temperature (air)',
+            backgroundColor: color(window.chartColors.purple).alpha(0.5).rgbString(),
+            borderColor: window.chartColors.purple,
+            data: temp_data,
+            type: 'line',
+            pointRadius: 0,
+            fill: false,
+            /*lineTension: 0,*/
+            borderWidth: 2, 
+            yAxisID: 'y-axis-2',
+        }, {
+            label: 'Humidity (air)',
+            backgroundColor: color(window.chartColors.yellow).alpha(0.5).rgbString(),
+            borderColor: window.chartColors.yellow,
+            data: humid_data,
+            type: 'line',
+            pointRadius: 0,
+            fill: false,
+            /*lineTension: 0,*/
+            borderWidth: 2, 
+            yAxisID: 'y-axis-3',
+        }]
+    },
+    options: {
+        responsive: true,
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                type: 'time',
+                distribution: 'linear', 
+                time: {
+                    unit: 'day'
+                }
+            }],
+            yAxes: [{
+                id: 'y-axis-2',
+                gridLines: {
+                    drawBorder: false
+                },
+                position: 'right', 
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Temperature (C)'
+                }
+            }, {
+                id: 'y-axis-3',
+                gridLines: {
+                    display: false
+                },
+                position: 'left', 
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Humidity (%)'
+                }
+            }]
+        }
+    }
+});
+</script>
+</body>
+</html>

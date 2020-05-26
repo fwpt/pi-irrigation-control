@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>Irrigation measures rpi-c1</title>
+</head>
+<body style="padding:10px;font-size:40px !important;">
+<table style="font-size:40px;font-family:Arial,sans-serif;">
+<tr><th>Moist</th><th>Temp</th><th>Humid</th><th>CPU</th><th>Time</th></tr>
+{% for row in measures %}
+<tr>
+<td>{{ row['sensor_moist'] }}</td>
+<td>{{ row['sensor_temp'] }}</td>
+<td>{{ row['sensor_humid'] }}</td>
+<td>{{ row['sensor_cpu'] }}</td>
+<td>{{ row['dt'] }}</td>
+</tr>
+{% endfor %}
+</table>
+<br><br><br>
+<a href="/irrictrl">Back</a>
+</form>
+</body>
+</html>
